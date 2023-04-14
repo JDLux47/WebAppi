@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import './Style.css'
+import 'C:/Users/1/Desktop/react-app/src/Style.css'
 
-const User = ({ users, setUsers, removeUser, getUser }) => {
+const User = ({ user, users, setUsers, removeUser }) => {
     useEffect(() => {
         const getUsers = async () => {
             const requestOptions = {
@@ -27,7 +27,7 @@ const User = ({ users, setUsers, removeUser, getUser }) => {
         const requestOptions = {
             method: 'DELETE'
         }
-        return await fetch(`https://localhost:7218/api/user/${id}`,
+        return await fetch(`api/user/${id}`,
             requestOptions)
 
             .then((response) => {
@@ -38,29 +38,34 @@ const User = ({ users, setUsers, removeUser, getUser }) => {
                 (error) => console.log(error)
             )
     }
-
+    
     return (
         <React.Fragment>
-            <h3> Данные </h3>
-            <table>
-                <thead> Список Пользователей </thead>
-                <tr><th> Идентификатор </th> <th> Имя </th> <th> Сумма транзакции : дата </th>  </tr>
-                {users.map(({ id, name, balance, login, password, dateUpdateBalance, sumLimiter, transact }) => (
-                    <tbody className="User" key={id} id={id}>
-                        <tr>
-                            <td> {id} </td> <td> {name} </td>
-                            <td>
-                            {transact.map(({ id, type, iD_Category, sum, date, iD_User }) => (
-                                <div className="Transact" key={id} id={id} >
-                                    {sum}  рублей : {date}
-                                </div>
+            {user.isAuthenticated && user.userRole == "admin" ? (
+                <>
+                    <h3> Данные </h3>
+                    <table>
+                        <thead> Список Пользователей </thead>
+                        <tbody>
+                            <tr><th> Идентификатор </th> <th> Имя </th> <th> Логин </th> <th> Баланс </th><th> Дата </th> </tr>
+                            {users.map(({ id, name, balance, login, dateUpdateBalance }) => (
+                                <>
+                                    {login != "admin" ? (
+                                        <tr className="User" key={id} id={id}>
+                                            <td> {id} </td> 
+                                            <td> {name} </td>
+                                            <td> {login} </td>
+                                            <td> {balance} </td>
+                                            <td> {dateUpdateBalance} </td>
+                                            <td> <button onClick={() => deleteItem({id})}> Заблокировать </button> </td>
+                                        </tr>
+                                    ):("")}
+                                </>
                             ))}
-                            </td>
-                            <td> <button onClick={(e) => deleteItem({id})}> Удалить </button> </td>
-                        </tr>
-                    </tbody>
-                ))}
-            </table>
+                        </tbody>
+                    </table>
+                </>
+            ) : ("")}
         </React.Fragment>
     )
 }

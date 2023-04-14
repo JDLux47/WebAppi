@@ -35,7 +35,6 @@ const TransactCreate = ({ user, addTransact }) => {
         const valuedate = new Date()
 
         const transact = { Sum: valuesum, Type: valuetype, CategoryId: valuecategory, Date: valuedate, UserId: valueuser}
-
         const createTransact = async () => {
             const requestOptions = {
                 method: 'POST',
@@ -63,20 +62,20 @@ const TransactCreate = ({ user, addTransact }) => {
     }
     return (
         <React.Fragment>
-            {user.isAuthenticated ? (
+            {user.isAuthenticated && user.userRole == "user" ? (
                 <>
-                <h3>Создание новой транзакции</h3>
-                <form onSubmit={handleSubmit}>
-                <label className='text-field__label'> Сумма: </label>
-                <input className='text-field__input' type="number" name="Sum" placeholder="Введите Сумму" />
-                <label className='text-field__label'> Тип: </label>
-                <CreateOptionType/> <br />
-                <label className='text-field__label'> Категория: </label>
-                <CreateOption/> <br />
-                <br></br> <button type="submit"> Создать </button>
-                </form>
+                    <h3>Создание новой транзакции</h3>
+                    <form onSubmit={handleSubmit}>
+                    <label className='text-field__label'> Сумма: </label>
+                    <input className='text-field__input' type="number" name="Sum" placeholder="Введите Сумму" />
+                    <label className='text-field__label'> Тип: </label>
+                    <CreateOptionType/> <br />
+                    <label className='text-field__label'> Категория: </label>
+                    <CreateOption/> <br />
+                    <br></br> <button type="submit"> Создать </button>
+                    </form>
                 </>
-              ) : ("")}
+            ) : ("")}
         </React.Fragment >
     )
 }

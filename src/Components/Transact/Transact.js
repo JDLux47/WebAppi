@@ -23,8 +23,6 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
         getTransacts()
     }, [setTransacts])
 
-    console.log(user)
-
     const deleteItem = async ({ id }) => {
         const requestOptions = {
             method: 'DELETE'
@@ -43,34 +41,42 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
 
     return (
       <React.Fragment>
-        <h3> Данные </h3>
-        <table>
-          <thead> Список транзакции </thead>
-          <tr>
-            <th> Идентификатор </th>
-            <th> Тип транзакции </th> <th> Сумма транзакции </th>
-            <th> Дата </th>
-            <th> Категория </th>
-          </tr>
-          {transacts.map(({ id, type, sum, date, userId, category }) => (
-            <tbody className="Transact" key={id} id={id}>
-                {userId == user.id ? 
-                <tr>
-                <td> {id} </td>
-                {type > 0 ? <td>Доход</td> : <td>Расход</td>} <td> {sum} </td>
-                <td> {date} </td> <td> {category.name} </td>
-                <td>
-                  {user.isAuthenticated ? (
-                    <button onClick={() => deleteItem({ id })}>Удалить</button>
-                  ) : (
-                    ""
-                  )}
-                </td>
-              </tr> : ""}
-            </tbody>
-          ))}
-        </table>
+        <br/>
+        {user.isAuthenticated ? (
+          <>
+            {user.userRole == "user" ? (
+              <>
+                <h3> Данные </h3>
+                <table>
+                  <thead> Список транзакции </thead>
+                  <tbody>
+                    <tr>
+                      <th> Идентификатор </th>
+                      <th> Тип транзакции </th> <th> Сумма транзакции </th>
+                      <th> Дата </th>
+                      <th> Категория </th>
+                    </tr>
+                    {transacts.map(({ id, type, sum, date, userId, category }) => (
+                        <>
+                          {userId == user.id ? 
+                            <tr className="Transact" key={id} id={id}>
+                              <td> {id} </td>
+                              {type > 0 ? <td>Доход</td> : <td>Расход</td>} <td> {sum} </td>
+                              <td> {date} </td> <td> {category.name} </td>
+                              <td>
+                                  <button onClick={() => deleteItem({ id })}>Удалить</button>
+                              </td>
+                            </tr> 
+                          : ""}
+                        </>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            ) : ("")}
+          </>
+        ) : ("Для отображения данных неободимо авторизазоваться!")}
       </React.Fragment>
     );
 }
-export default Transact 
+export default Transact
