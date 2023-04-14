@@ -73,4 +73,4 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
       </React.Fragment>
     );
 }
-export default Transact
+export default Transact 
