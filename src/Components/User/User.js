@@ -56,7 +56,7 @@ const User = ({ user, users, setUsers, removeUser }) => {
                                             <td> {name} </td>
                                             <td> {login} </td>
                                             <td> {balance} </td>
-                                            <td> {dateUpdateBalance} </td>
+                                            <td> {dateUpdateBalance = dateUpdateBalance.slice(0, 10)} </td>
                                             <td> <button onClick={() => deleteItem({id})}> Заблокировать </button> </td>
                                         </tr>
                                     ):("")}

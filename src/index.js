@@ -16,6 +16,8 @@ import Registration from './Components/Registration/Registration';
 
 import LogOff from './Components/LogOff/LogOff';
 
+import Main from './Components/Main/Main';
+
 const App = () => {
   const [users, setUsers] = useState({ });
   //const addUser = (user) => setUsers([...users, user])
@@ -30,14 +32,14 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout user={user} />}>
-          <Route index element={<h3>Главная страница</h3>} />
+        <Route path="/" element={<Layout user={user} /> }>
+          <Route path="/" element={<Main user={user} />} />
           <Route
             path="/transact"
             element={
               <> 
                 <TransactCreate 
-                  user={user} 
+                  user={user}
                   addTransact={addTransact} 
                 />
                 <Transact

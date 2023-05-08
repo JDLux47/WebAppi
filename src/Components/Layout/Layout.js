@@ -6,7 +6,7 @@ const { Header, Content, Footer } = LayoutAntd
 
 const items = [
   {
-    label: <Link to={"/"}>Главная</Link>,
+    label: <Link to={"/"}>Профиль</Link>,
     key: "1",
   },
 
@@ -16,12 +16,12 @@ const items = [
   },
 
   {
-    label: <Link to={"/login"}>Вход</Link>,
+    label: <Link to="/register">Регистрация</Link>,
     key: "3",
   },
 
   {
-    label: <Link to="/register">Регистрация</Link>,
+    label: <Link to={"/login"}>Вход</Link>,
     key: "4"
   },
 
@@ -32,7 +32,6 @@ const items = [
 ]
 
 const Layout = ({ user }) => {
-
   return (
     <LayoutAntd>
       <Header style={{ position: "sticky", top: 0, zIndex: 1, width: "100%" }}>
@@ -43,10 +42,12 @@ const Layout = ({ user }) => {
           }}
         >
           {user.isAuthenticated ? (
-            <strong>{user.login}</strong>
-          ) : (
-            <strong>Гость</strong>
-          )}
+            <strong> 
+              {user.userRole == "user"? 
+              (<>{user.login} / Баланс : {user.balance}</>):(<>Администратор : {user.login}</>)}
+            </strong>
+          ) 
+          : (<strong>Гость</strong>)}
         </div>
         <Menu theme="dark" mode="horizontal" items={items} className="menu" />
       </Header>
@@ -56,5 +57,5 @@ const Layout = ({ user }) => {
       <Footer style={{ textAlign: "center" }}>Transacts ©2023</Footer>
     </LayoutAntd>
   );
-};
+}
 export default Layout;

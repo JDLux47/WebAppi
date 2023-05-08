@@ -23,16 +23,17 @@ const LogIn = ({ user, setUser }) => {
         // console.log(response.status)
 
         response.status === 200 &&
-          setUser({ isAuthenticated: true, login: "", id: "", userRole: ""});
+          setUser({ isAuthenticated: true, login: "", id: "", userRole: "", balance: "", name: "", dateUpdateBalance: ""});
         return response.json();
       })
       .then(
         (data) => {
+          console.log(data);
           if (
             typeof data !== "undefined" &&
             typeof data.login !== "undefined"
           ) {
-            setUser({ isAuthenticated: true, login: data.login, id: data.id, userRole: data.userRole});
+            setUser({ isAuthenticated: true, login: data.login, id: data.id, userRole: data.userRole, balance: data.balance, name: data.name, dateUpdateBalance: data.dateUpdateBalance});
             navigate("/");
           }
           typeof data !== "undefined" &&

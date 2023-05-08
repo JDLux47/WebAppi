@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "antd";
+
 const LogOff = ({ setUser }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();

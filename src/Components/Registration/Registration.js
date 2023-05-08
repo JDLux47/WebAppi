@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, Form, Input } from "antd";
 
 const Register = ({ user, setUser }) => {
   const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
-  const register = async (event) => {
-    event.preventDefault();
-    var {Name, Login, Password, Balance, PasswordConfirm } = document.forms[0];
+  const register = async (formValues) => {
+    console.log("Success:", formValues)
+    //var {name, login, password, balance, passwordConfirm } = document.forms[0];
     // console.log(email.value, password.value)
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: Name.value,
-        login: Login.value,
-        password: Password.value,
-        balance: Balance.value,
-        passwordConfirm: PasswordConfirm.value,
+        name: formValues.name,
+        login: formValues.login,
+        password: formValues.password,
+        balance: formValues.balance,
+        passwordConfirm: formValues.passwordConfirm,
       }),
     };  
     return await fetch(
@@ -27,7 +28,7 @@ const Register = ({ user, setUser }) => {
         // console.log(response.status)
 
         response.status === 200 &&
-          setUser({ isAuthenticated: true, login: Login.value});
+          setUser({ isAuthenticated: true, login: formValues.login, name: formValues.name, password: formValues.password, balance: formValues.balance, dateUpdateBalance: formValues.dateUpdateBalance});
         return response.json();
       })
       .then(
@@ -36,7 +37,7 @@ const Register = ({ user, setUser }) => {
             typeof data !== "undefined" &&
             typeof data.login !== "undefined"
           ) {
-            setUser({ isAuthenticated: true, login: data.login });
+            setUser({ isAuthenticated: true, login: data.login, name: data.name, password: data.password, balance: data.balance, dateUpdateBalance: data.dateUpdateBalance });
             navigate("/");
           }
           typeof data !== "undefined" &&
@@ -57,20 +58,70 @@ const Register = ({ user, setUser }) => {
       ) : (
         <>
           <h3>Регистрация</h3>
-          <form onSubmit={register}>
-                <label className='text-field__label'> Имя: </label>
-                <input className='text-field__input' type="text" name="Name" placeholder="Введите имя" />
-                <label className='text-field__label'> Логин: </label>
-                <input className='text-field__input' type="text" name="Login" placeholder="Введите логин" />
-                <label className='text-field__label'> Ваш начальный баланс: </label>
-                <input className='text-field__input' type="text" name="Balance" placeholder="Введите баланс" />
-                <label className='text-field__label'> Пароль: </label>
-                <input className='text-field__input' type="password" name="Password" placeholder="Введите пароль" />
-                <label className='text-field__label'> Подтвердите пароль: </label>
-                <input className='text-field__input' type="password" name="PasswordConfirm" placeholder="Подтвердите пароль" />
-                <br></br> <button type="submit"> Зарегистрироваться </button>
-          </form>
-          {renderErrorMessage()}
+          <Form
+            onFinish={register}
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{ remember: true }}
+            onFinishFailed={renderErrorMessage}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="ФИО: "
+              name="name"
+              rules={[
+                { required: true, message: "Please input your name!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Логин: "
+              name="login"
+              rules={[
+                { required: true, message: "Please input your login!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Баланс: "
+              name="balance"
+              rules={[
+                { required: true, message: "Please input your balance!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Пароль: "
+              name="password"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              label="Подтвердите пароль: "
+              name="passwordConfirm"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit"> Зарегистрироваться </Button>
+            </Form.Item>
+            </Form>
         </>
           )}
           </>
