@@ -3,6 +3,8 @@ import 'C:/Users/1/Desktop/react-app/src/Style.css'
 
 const User = ({ user, users, setUsers, removeUser }) => {
     useEffect(() => {
+
+        //функция для получения пользователей с помощью метода GET с сервера
         const getUsers = async () => {
             const requestOptions = {
                 method: 'GET'
@@ -23,6 +25,7 @@ const User = ({ user, users, setUsers, removeUser }) => {
         getUsers()
     }, [setUsers])
 
+    //функция для удаления пользователей с помощью метода DELETE на сервере
     const deleteItem = async ({ id }) => {
         const requestOptions = {
             method: 'DELETE'
@@ -43,7 +46,6 @@ const User = ({ user, users, setUsers, removeUser }) => {
         <React.Fragment>
             {user.isAuthenticated && user.userRole == "admin" ? (
                 <>
-                    <h3> Данные </h3>
                     <table>
                         <thead> Список Пользователей </thead>
                         <tbody>

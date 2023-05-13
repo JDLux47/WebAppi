@@ -4,6 +4,7 @@ import prof from './prof.png';
 import 'C:/Users/1/Desktop/react-app/src/Style.css'
 import 'C:/Users/1/Desktop/react-app/src/Components/Main/StyleMain.css'
 
+//функция представления главной страницы (профиля пользователя)
 const Main = ({user}) =>{
     var date 
 

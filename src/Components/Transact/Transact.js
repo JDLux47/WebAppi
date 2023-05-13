@@ -3,16 +3,16 @@ import { Button, Dropdown, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import 'C:/Users/1/Desktop/react-app/src/Style.css'
 
-const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
+
+const Transact = ({ user, transacts, setTransacts, removeTransact, setUpdTrans }) => {
 
   const navigate = useNavigate();
 
   const [transacts2, setSorted] = useState([])
   console.log('TR2:', transacts2)
-  console.log('TR:', transacts)
 
     useEffect(() => {
-
+        //функция получения транзакций через метод GET
         const getTransacts = async () => {
             const requestOptions = {
                 method: 'GET'
@@ -33,7 +33,7 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
         getTransacts()
 
     }, [setTransacts])
-
+  //функция удаления транзакций через метод DELETE
     const deleteItem = async ({ id }) => {
         const requestOptions = {
             method: 'DELETE'
@@ -49,7 +49,22 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
                 (error) => console.log(error)
             )
     }
+//функция получения транзакции через метод GET
+    const OneTransact = async ({ id }) => {
+      const requestOptions = {
+          method: 'GET'
+      }
+      return await fetch(`api/transact/${id}`,
+          requestOptions)
 
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("получил: ", data)
+            setUpdTrans(data);
+          });
+  }
+
+//функция сортировки по суммам транзакций
     const SortBySum = () => {
 
       transacts.sort(function(a, b) {
@@ -59,7 +74,7 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
       setSorted(transacts)
       navigate("/transact");
     }
-
+//функция сортировки по типам транзакций
     const SortByType = () => {
 
       transacts.sort(function(a, b) {
@@ -69,7 +84,7 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
       setSorted(transacts)
       navigate("/transact");
     }
-
+//функция сортировки по категориям транзакций
     const SortByCategory = () => {
 
       transacts.sort(function(a, b) {
@@ -100,7 +115,6 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
                   <Button>Сортировать</Button>
                 </Dropdown>
                 
-
                 <table>
                   <thead> Список транзакции </thead>
                   <tbody>
@@ -117,6 +131,8 @@ const Transact = ({ user, transacts, setTransacts, removeTransact }) => {
                               <td> {date = date.slice(0, 10)} </td> <td> {category.name} </td>
                               <td>
                                   <button onClick={() => deleteItem({ id })}>Удалить</button>
+                                  <a> </a>
+                                  <button onClick={() => OneTransact({ id })}>Изменить</button>
                               </td>
                             </tr> 
                           : ""}

@@ -4,6 +4,7 @@ import { Layout as LayoutAntd, Menu } from "antd";
 
 const { Header, Content, Footer } = LayoutAntd
 
+//объекты панели-меню, страницы
 const items = [
   {
     label: <Link to={"/"}>Профиль</Link>,
@@ -31,6 +32,7 @@ const items = [
   }
 ]
 
+//функция для расположения заголовков меню
 const Layout = ({ user }) => {
   return (
     <LayoutAntd>

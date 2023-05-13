@@ -11,7 +11,9 @@ import User from './Components/User/User';
 import TransactCreate from './Components/TransactCreate.js/TransactCreate';
 import Transact from './Components/Transact/Transact';
 
-import Category from './Components/Category/Category/Category';
+import Category from './Components/Category/Category';
+import CategoryCreate from './Components/Category/CategoryCreate';
+
 import Registration from './Components/Registration/Registration';
 
 import LogOff from './Components/LogOff/LogOff';
@@ -19,12 +21,21 @@ import LogOff from './Components/LogOff/LogOff';
 import Main from './Components/Main/Main';
 
 const App = () => {
+
+  //объявление функций и переменных состояний
+
   const [users, setUsers] = useState({ });
   //const addUser = (user) => setUsers([...users, user])
   const removeUser = (removeId) => setUsers(users.filter(({ id }) => id !== removeId));
 
   const [transacts, setTransacts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [UpdateTrans, setUpdTrans] = useState({});
+
+  const addCategory = (category) => setCategories([...categories, category]);
   const addTransact = (transact) => setTransacts([...transacts, transact]);
+
+  const removeCategory = (removeId) => setCategories(categories.filter(({ id }) => id !== removeId));
   const removeTransact = (removeId) => setTransacts(transacts.filter(({ id }) => id !== removeId));
 
   const [user, setUser] = useState({ isAuthenticated: false, userName: "", userRole: "" });
@@ -40,13 +51,28 @@ const App = () => {
               <> 
                 <TransactCreate 
                   user={user}
-                  addTransact={addTransact} 
+                  addTransact={addTransact}
+                  categories={categories} 
+                  UpdateTrans={UpdateTrans}
+                  setUpdTrans={setUpdTrans}
                 />
+                <Category 
+                  user={user}
+                  categories={categories}
+                  setCategories={setCategories}
+                  removeCategory={removeCategory}
+                  addCategory={addCategory}
+                />
+                <CategoryCreate
+                  user={user}
+                  addCategory={addCategory} 
+                /> 
                 <Transact
                   user={user}
                   transacts={transacts}
                   setTransacts={setTransacts}
                   removeTransact={removeTransact}
+                  setUpdTrans={setUpdTrans}
                 />
                 <User
                   user={user}
@@ -54,7 +80,6 @@ const App = () => {
                   setUsers={setUsers}
                   removeUser={removeUser}
                 /> 
-                <Category />
               </>
             }
           />

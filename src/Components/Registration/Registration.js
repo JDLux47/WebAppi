@@ -5,6 +5,8 @@ import { Button, Form, Input } from "antd";
 const Register = ({ user, setUser }) => {
   const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
+
+  //функция для отправки POST-запроса на сервер. Для регистрации нового пользователя
   const register = async (formValues) => {
     console.log("Success:", formValues)
     //var {name, login, password, balance, passwordConfirm } = document.forms[0];
@@ -26,7 +28,8 @@ const Register = ({ user, setUser }) => {
     )
       .then((response) => {
         // console.log(response.status)
-
+        
+        //устанавливаем пользователя, который только что был зарегистрирован
         response.status === 200 &&
           setUser({ isAuthenticated: true, login: formValues.login, name: formValues.name, password: formValues.password, balance: formValues.balance, dateUpdateBalance: formValues.dateUpdateBalance});
         return response.json();
@@ -37,8 +40,10 @@ const Register = ({ user, setUser }) => {
             typeof data !== "undefined" &&
             typeof data.login !== "undefined"
           ) {
-            setUser({ isAuthenticated: true, login: data.login, name: data.name, password: data.password, balance: data.balance, dateUpdateBalance: data.dateUpdateBalance });
+            console.log("Пользователь: ", user)
+            setUser({ isAuthenticated: true, login: data.login, id: data.id, name: data.name, userRole: data.userRole, password: data.password, balance: data.balance, dateUpdateBalance: data.dateUpdateBalance });
             navigate("/");
+            console.log("Пользователь2: ", user)
           }
           typeof data !== "undefined" &&
             typeof data.error !== "undefined" &&

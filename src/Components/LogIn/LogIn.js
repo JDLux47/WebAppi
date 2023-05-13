@@ -3,9 +3,13 @@ import { useNavigate } from "react-router-dom";
 import 'C:/Users/1/Desktop/react-app/src/Style.css';
 import { Button, Checkbox, Form, Input } from "antd";
 
+//функция входа в аккаунт
 const LogIn = ({ user, setUser }) => {
+
   const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
+
+//функция входа в аккаунт
   const logIn = async (formValues) => {
     console.log("Success:", formValues)
     // console.log(email.value, password.value)
@@ -21,7 +25,6 @@ const LogIn = ({ user, setUser }) => {
     return await fetch("api/account/login", requestOptions)
       .then((response) => {
         // console.log(response.status)
-
         response.status === 200 &&
           setUser({ isAuthenticated: true, login: "", id: "", userRole: "", balance: "", name: "", dateUpdateBalance: ""});
         return response.json();
@@ -33,6 +36,7 @@ const LogIn = ({ user, setUser }) => {
             typeof data !== "undefined" &&
             typeof data.login !== "undefined"
           ) {
+            //устанавливаем пользователя
             setUser({ isAuthenticated: true, login: data.login, id: data.id, userRole: data.userRole, balance: data.balance, name: data.name, dateUpdateBalance: data.dateUpdateBalance});
             navigate("/");
           }
@@ -47,6 +51,7 @@ const LogIn = ({ user, setUser }) => {
   };
   const renderErrorMessage = () =>
     errorMessages.map((error, index) => <div key={index}>{error}</div>);
+
   return (
     <>
       {user.isAuthenticated ? (
