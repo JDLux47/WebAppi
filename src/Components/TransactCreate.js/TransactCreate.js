@@ -4,7 +4,7 @@ import { Modal, Select, Form, Button, InputNumber, Space} from "antd";
 
 const {Option} = Select
 
-const TransactCreate = ({ user, addTransact, categories, UpdateTrans, setUpdTrans}) => {
+const TransactCreate = ({ user, addTransact, categories, UpdateTrans, setUpdTrans, setTransacts, transacts}) => {
 
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
@@ -55,16 +55,16 @@ const TransactCreate = ({ user, addTransact, categories, UpdateTrans, setUpdTran
 
       return await fetch(`api/transact/${UpdateTrans.id}`, requestOptions)
 
-        .then(
-        (response) => {
+        .then((response) => response.json())
+          .then((data) => {
+            console.log(data)
+            setTransacts(transacts.map(x => x.id !== data.id ? x : data));
+            setUpdTrans({});
             // response.status === 201 && addTransact(data)
-            if (response.ok) {
-                setUpdTrans({});
                 handleCancel();
                 e.Sum = "";
                 e.Type = "";
-            }
-        },
+          },
             (error) => console.log(error)
       )
     }

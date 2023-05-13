@@ -55,6 +55,8 @@ const App = () => {
                   categories={categories} 
                   UpdateTrans={UpdateTrans}
                   setUpdTrans={setUpdTrans}
+                  setTransacts={setTransacts}
+                  transacts={transacts}
                 />
                 <Category 
                   user={user}
